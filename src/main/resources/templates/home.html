@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Inicio</title>
+</head>
+<body>
+    <h1 th:text="${message}">Texto de prueba</h1>
+    <img src="https://i.pinimg.com/236x/29/c5/b0/29c5b012883be57d6da1b42d9ede09f9.jpg" alt="">
+    <!-- Form to logout -->
+    <form th:action="@{/logout}" method="post">
+        <button type="submit">Logout</button>
+    </form>
+</body>
+</html>

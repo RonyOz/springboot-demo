@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Page</title>
+    <link rel="stylesheet" th:href="@{/css/studentPage.css}">
+</head>
+<body>
+    <h1>Students List</h1>
+    <ul>
+        <li th:each="student : ${students}">
+            <a th:href="@{'/student/' + ${student.id}}" th:text="${student.name}"></a>
+        </li>
+    </ul>
+
+    <form th:action="@{/student}" method="post" th:object="${student}" >
+        <fieldset>
+            <legend>Create Student</legend>
+            <input type="text" th:field="*{name}" name="name">
+            <input type="text" th:field="*{code}" name="code">
+            <input type="text" th:field="*{program}" name="Program">
+
+            <button>submit</button>
+
+        </fieldset>
+    </form>
+</body>
+</html>

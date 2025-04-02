@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Page</title>
+</head>
+<body>
+    <h1>Courses Page</h1>
+
+    <form th:action="@{/course}" method="post" th:object="${course}">
+        <fieldset>
+            <legend>Create Course</legend>
+
+            <input type="text" placeholder="Course Name" th:field="*{name}">
+            
+            <select th:field="*{professor.id}">
+                <option th:each="professor : ${professors}" th:value="${professor.id}" th:text="${professor.name}"></option>
+            </select>
+
+            <button>Submit</button>
+
+        </fieldset>
+    </form>
+
+    <h1>Courses List</h1>
+    <ul>
+        <li><a th:each="course : ${courses}" th:href="@{'/course/' + ${course.id}}"></a></li>
+    </ul>
+
+</body>
+</html>

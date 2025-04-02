@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professor Page</title>
+</head>
+
+<body>
+
+    <form action="/professor/create" method="post">
+        <fieldset>
+            <legend>Create Professor</legend>
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required><br>
+            <input type="submit" value="Create Professor">
+        </fieldset>
+    </form>
+
+    <!-- Professors -->
+     <ul>
+        <li th:each="professor : ${professors}" th:text="${professor.name}"></li>
+     </ul>
+
+</body>
+
+</html>
