@@ -5,7 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.springboot_demo.dto.CourseDTO;
 import com.example.springboot_demo.entity.Course;
+import com.example.springboot_demo.mapper.CourseMapper;
 import com.example.springboot_demo.repository.CourseRepository;
 import com.example.springboot_demo.repository.EnrollmentRepository;
 import com.example.springboot_demo.service.CourseService;
@@ -17,35 +19,38 @@ public class CourseServiceImpl implements CourseService {
     private EnrollmentRepository enrollmentRepository;
 
     @Autowired
+    private CourseMapper courseMapper;
+
+    @Autowired
     private CourseRepository courseRepository;
 
     @Override
-    public List<Course> getCoursesByStudent(Long studentId) {
+    public List<CourseDTO> getCoursesByStudent(Long studentId) {
         var enrollments = enrollmentRepository.findByStudent_Id(studentId);
-        return enrollments.stream().map(enrollment -> enrollment.getCourse()).toList();
+        return enrollments.stream().map(enrollment -> courseMapper.toDTO(enrollment.getCourse())).toList();
     }
 
     @Override
-    public Course createCourse(Course course) {
+    public CourseDTO createCourse(CourseDTO course) {
+        var entity = courseMapper.toEntity(course);
         
         if (courseRepository.existsByName(course.getName())) {
             throw new RuntimeException("Course already exists");
             
-        } 
+        }     
 
-        courseRepository.save(course);
-
+        courseRepository.save(entity);
 
         return course;
     }
 
     @Override
-    public List<Course> getAllCourses() {
-        return courseRepository.findAll();
+    public List<CourseDTO> getAllCourses() {
+        return courseRepository.findAll().stream().map(courseMapper::toDTO).toList();
     }
 
-    public Course getCourseById(long l) {
-        return courseRepository.findById(l).get();
+    public CourseDTO getCourseById(long l) {
+        return courseMapper.toDTO(courseRepository.findById(l).get());
     }
 
 	public void deleteCourse(long courseId) {
@@ -58,8 +63,8 @@ public class CourseServiceImpl implements CourseService {
 	}
 
     @Override
-    public Course getCourseById(Long id) {
-        return courseRepository.findById(id).get();
+    public CourseDTO getCourseById(Long id) {
+        return courseMapper.toDTO(courseRepository.findById(id).get());
     }
 
 }
