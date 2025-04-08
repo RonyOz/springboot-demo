@@ -75,7 +75,6 @@ VALUES (1, 1),
 SELECT setval('sb_users_seq', (SELECT MAX(id) FROM sb_users));
 SELECT setval('roles_seq', (SELECT MAX(id) FROM roles));
 
-
 SELECT setval('professors_seq', (SELECT MAX(id) FROM professors));
 SELECT setval('students_seq', (SELECT MAX(id) FROM students));
 SELECT setval('courses_seq', (SELECT MAX(id) FROM courses));
