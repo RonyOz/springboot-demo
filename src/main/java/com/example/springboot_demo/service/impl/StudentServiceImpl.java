@@ -6,8 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import com.example.springboot_demo.dto.StudentDTO;
 import com.example.springboot_demo.entity.Enrollment;
-import com.example.springboot_demo.entity.Student;
+import com.example.springboot_demo.mapper.StudentMapper;
 import com.example.springboot_demo.repository.EnrollmentRepository;
 import com.example.springboot_demo.repository.StudentRepository;
 import com.example.springboot_demo.service.StudentService;
@@ -24,48 +25,52 @@ public class StudentServiceImpl implements StudentService {
     @Autowired
     private EnrollmentRepository enrollmentRepository;
 
+    @Autowired
+    private StudentMapper studentMapper;
+
+
     @Override
-    public void createStudent(Student student) {
-        studentRepository.save(student);
+    public void createStudent(StudentDTO student) {
+        studentRepository.save(studentMapper.toEntity(student));
     }
 
     @Override
-    public List<Student> getStudents() {
-        return studentRepository.findAll();
+    public List<StudentDTO> getStudents() {
+        return studentRepository.findAll().stream().map(student -> studentMapper.toDTO(student)).toList();
     }
 
     @Override
-    public List<Student> getByProgram(String program) {
-        return studentRepository.findByProgram(program);
+    public List<StudentDTO> getByProgram(String program) {
+        return studentRepository.findByProgram(program).stream().map(student -> studentMapper.toDTO(student)).toList();
     }
 
     @Override
-    public Page<Student> findAll(int page, int size) {
-        return studentRepository.findAll(org.springframework.data.domain.PageRequest.of(page, size));
+    public Page<StudentDTO> findAll(int page, int size) {
+        return studentRepository.findAll(org.springframework.data.domain.PageRequest.of(page, size)).map(student -> studentMapper.toDTO(student));
     }
 
     @Override
-    public List<Student> getEnrolledStudents(long courseId) {
+    public List<StudentDTO> getEnrolledStudents(long courseId) {
 
         List<Enrollment> enrollments = enrollmentRepository.findByCourse_Id(courseId);
-        return enrollments.stream().map(enrollment -> enrollment.getStudent()).toList();
+        return enrollments.stream().map(enrollment -> studentMapper.toDTO(enrollment.getStudent())).toList();
 
     }
 
     @Override
-    public Student getStudentById(long id) {
-        return studentRepository.findById(id).orElse(null);
+    public StudentDTO getStudentById(long id) {
+        return studentMapper.toDTO(studentRepository.findById(id).orElse(null));
     }
 
     @Override
-    public Student getStudentByCode(String code) {
-        return studentRepository.findByCode(code).orElse(null);
+    public StudentDTO getStudentByCode(String code) {
+        return studentMapper.toDTO(studentRepository.findByCode(code).orElse(null));
     }
 
     @Override
-    public List<Student> getStudentsByCourse(long courseId) {
+    public List<StudentDTO> getStudentsByCourse(long courseId) {
         List<Enrollment> enrollments = enrollmentRepository.findByCourse_Id(courseId);
-        return enrollments.stream().map(enrollment -> enrollment.getStudent()).toList();
+        return enrollments.stream().map(enrollment -> studentMapper.toDTO(enrollment.getStudent())).toList();
     }
 
     

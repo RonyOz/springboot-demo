@@ -4,16 +4,15 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 
-import com.example.springboot_demo.entity.Student;
-
+import com.example.springboot_demo.dto.StudentDTO;
 
 public interface StudentService {
-    void createStudent(Student student);
-    List<Student> getStudents();
-    List<Student> getByProgram(String program);
-    Page<Student> findAll(int page, int size);
-    List<Student> getEnrolledStudents(long courseId);
-    Student getStudentById(long id);
-    Student getStudentByCode(String code);
-    List<Student> getStudentsByCourse(long courseId);
+    void createStudent(StudentDTO student);
+    List<StudentDTO> getStudents();
+    List<StudentDTO> getByProgram(String program);
+    Page<StudentDTO> findAll(int page, int size);
+    List<StudentDTO> getEnrolledStudents(long courseId);
+    StudentDTO getStudentById(long id);
+    StudentDTO getStudentByCode(String code);
+    List<StudentDTO> getStudentsByCourse(long courseId);
 }

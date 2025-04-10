@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.springboot_demo.dto.CourseDTO;
-import com.example.springboot_demo.entity.Course;
 import com.example.springboot_demo.mapper.CourseMapper;
 import com.example.springboot_demo.repository.CourseRepository;
 import com.example.springboot_demo.repository.EnrollmentRepository;
