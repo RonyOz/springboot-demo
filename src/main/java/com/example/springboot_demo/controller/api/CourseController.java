@@ -1,4 +1,4 @@
-package com.example.springboot_demo.controller;
+package com.example.springboot_demo.controller.api;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ import com.example.springboot_demo.dto.CourseDTO;
 import com.example.springboot_demo.service.CourseService;
 
 @RestController
-@RequestMapping("courses")
+@RequestMapping("api/v1/courses")
 public class CourseController {
     
     @Autowired
@@ -22,6 +22,12 @@ public class CourseController {
 
     @GetMapping
     public ResponseEntity<List<CourseDTO>> getCourses() {
+        var courses = courseService.getAllCourses();
+        return ResponseEntity.status(0).body(courses);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<CourseDTO>> all() {
         var courses = courseService.getAllCourses();
         return ResponseEntity.status(0).body(courses);
     }
