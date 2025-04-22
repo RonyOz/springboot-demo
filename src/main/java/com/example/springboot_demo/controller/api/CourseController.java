@@ -21,12 +21,6 @@ public class CourseController {
     private CourseService courseService;
 
     @GetMapping
-    public ResponseEntity<List<CourseDTO>> getCourses() {
-        var courses = courseService.getAllCourses();
-        return ResponseEntity.status(0).body(courses);
-    }
-
-    @GetMapping
     public ResponseEntity<List<CourseDTO>> all() {
         var courses = courseService.getAllCourses();
         return ResponseEntity.status(0).body(courses);

@@ -42,4 +42,12 @@ public class JwtService {
         return claims;
     }
 
+    public Claims extractAllClaims(String token) {
+        return Jwts.parserBuilder()
+            .setSigningKey(Keys.hmacShaKeyFor(secret.getBytes()))
+            .build()
+            .parseClaimsJws(token)
+            .getBody();
+    }
+
 }
