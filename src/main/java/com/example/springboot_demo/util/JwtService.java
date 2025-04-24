@@ -25,7 +25,7 @@ public class JwtService {
     
         return Jwts.builder()
                     .setSubject(userDetails.getUsername())
-                    .setClaims(createClaims(userDetails))
+                    .addClaims(createClaims(userDetails))
                     .setIssuedAt(now)
                     .setExpiration(expiry)
                     .signWith(Keys.hmacShaKeyFor(secret.getBytes()))
