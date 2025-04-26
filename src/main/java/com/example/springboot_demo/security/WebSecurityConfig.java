@@ -3,6 +3,7 @@ package com.example.springboot_demo.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -29,14 +30,43 @@ public class WebSecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    @Order(1)
+    public SecurityFilterChain jwtSecurityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(xsrf -> xsrf.disable())
+                .securityMatcher("/api/**")
+                .csrf(csrf -> csrf.disable())
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(
                         auth -> auth
                                 .requestMatchers("/api/v1/auth/**").permitAll()
-                                .anyRequest().authenticated())
+                                .requestMatchers("/api/v1/**").authenticated())
+                .exceptionHandling(eh -> eh
+                        .authenticationEntryPoint((request, response, authException) -> {
+                            response.setStatus(401);
+                            response.setContentType("application/json");
+                            response.getWriter()
+                                    .write("{\"error\": \"Authentication is required to access this resource\"}");
+                        })
+                        .accessDeniedHandler((request, response, accessDeniedException) -> {
+                            response.setStatus(403);
+                            response.setContentType("application/json");
+                            response.getWriter()
+                                    .write("{\"error\": \"You don't have permission to access this resource\"}");
+                        }));
+        http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+        return http.build();
+    }
+
+    @Bean
+    @Order(2)
+    public SecurityFilterChain mvcSecurityFilterChain(HttpSecurity http) throws Exception {
+        http
+                .securityMatcher("/**")
+                .authorizeHttpRequests(
+                        auth -> auth
+                                .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
+                                .requestMatchers("/signup").permitAll()
+                                .requestMatchers("/course", "/home", "/student").authenticated())
                 .formLogin(login -> login
                         .loginPage("/login")
                         .defaultSuccessUrl("/home", true)
@@ -46,10 +76,16 @@ public class WebSecurityConfig {
                         .logoutSuccessUrl("/login?logout")
                         .invalidateHttpSession(true)
                         .deleteCookies("JSESSIONID")
-                        .permitAll());
-
-        http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-
+                        .permitAll())
+                .exceptionHandling(eh -> eh
+                        .authenticationEntryPoint((request, response, authException) -> {
+                            // Redirige al login si no está autenticado
+                            response.sendRedirect("/login");
+                        })
+                        .accessDeniedHandler((request, response, accessDeniedException) -> {
+                            // Redirige a una página de acceso denegado
+                            response.sendRedirect("/denied");
+                        }));
         return http.build();
     }
 
