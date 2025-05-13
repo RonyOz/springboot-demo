@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import com.example.springboot_demo.dto.EnrollmentDTO;
 import com.example.springboot_demo.entity.Enrollment;
 import com.example.springboot_demo.mapper.EnrollmentMapper;
-import com.example.springboot_demo.repository.CourseRepository;
 import com.example.springboot_demo.repository.EnrollmentRepository;
 import com.example.springboot_demo.repository.StudentRepository;
 import com.example.springboot_demo.service.EnrollmentService;
@@ -25,9 +24,6 @@ public class EnrollmentServiceImpl implements EnrollmentService {
     @Autowired
     private StudentRepository studentRepository;
 
-    @Autowired
-    private CourseRepository courseRepository;
-
     @Transactional
     public Enrollment enrollStudent(EnrollmentDTO enrollmentDTO) {
         Enrollment enrollment = enrollmentMapper.toEntity(enrollmentDTO);
@@ -41,5 +37,10 @@ public class EnrollmentServiceImpl implements EnrollmentService {
 
         return enrollment;
     }
+
+    @Override
+    public void deleteEnrollment(Long id) {
+        enrollmentRepository.deleteById(id);
+    } 
 
 }

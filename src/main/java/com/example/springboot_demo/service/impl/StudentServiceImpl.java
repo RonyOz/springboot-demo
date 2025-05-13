@@ -73,5 +73,15 @@ public class StudentServiceImpl implements StudentService {
         return enrollments.stream().map(enrollment -> studentMapper.toDTO(enrollment.getStudent())).toList();
     }
 
+    @Override
+    public void updateStudent(long id, StudentDTO student) {
+        var studentEntity = studentRepository.findById(id).orElse(null);
+        if (studentEntity != null) {
+            studentEntity.setName(student.getName());
+            studentEntity.setProgram(student.getProgram());
+            studentRepository.save(studentEntity);
+        }
+    }
+
     
 }

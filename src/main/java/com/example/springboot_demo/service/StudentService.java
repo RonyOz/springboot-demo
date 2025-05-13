@@ -15,4 +15,5 @@ public interface StudentService {
     StudentDTO getStudentById(long id);
     StudentDTO getStudentByCode(String code);
     List<StudentDTO> getStudentsByCourse(long courseId);
+    void updateStudent(long id, StudentDTO studentDTO);
 }

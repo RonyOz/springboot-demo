@@ -33,5 +33,15 @@
     "name": "app.security.expirationMinutes",
     "type": "java.lang.String",
     "description": "A description for 'app.security.expirationMinutes'"
+  },
+  {
+    "name": "app.security.expirationMinutes",
+    "type": "java.lang.String",
+    "description": "A description for 'app.security.expirationMinutes'"
+  },
+  {
+    "name": "app.security.expirationMinutes",
+    "type": "java.lang.String",
+    "description": "A description for 'app.security.expirationMinutes'"
   }
 ]}

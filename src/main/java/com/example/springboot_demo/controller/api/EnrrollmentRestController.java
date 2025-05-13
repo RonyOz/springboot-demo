@@ -4,6 +4,8 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +29,12 @@ public class EnrrollmentRestController {
         enrollmentService.enrollStudent(enrollmentDTO);
 
         return ResponseEntity.status(201).body(enrollmentDTO);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteEnrollment(@PathVariable("id") Long id) {
+        enrollmentService.deleteEnrollment(id);
+        return ResponseEntity.status(204).build();
     }
 
 }
