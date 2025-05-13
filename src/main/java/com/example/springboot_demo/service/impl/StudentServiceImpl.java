@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.example.springboot_demo.dto.StudentDTO;
@@ -35,8 +36,10 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public List<StudentDTO> getStudents() {
-        return studentRepository.findAll().stream().map(student -> studentMapper.toDTO(student)).toList();
+    public Page<StudentDTO> getStudents(int page, int size) {
+        return studentRepository
+            .findAll(org.springframework.data.domain.PageRequest.of(page, size, Sort.by("name").ascending()))
+            .map(student -> studentMapper.toDTO(student));
     }
 
     @Override

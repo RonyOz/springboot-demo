@@ -8,7 +8,7 @@ import com.example.springboot_demo.dto.StudentDTO;
 
 public interface StudentService {
     void createStudent(StudentDTO student);
-    List<StudentDTO> getStudents();
+    Page<StudentDTO> getStudents(int page, int size);
     List<StudentDTO> getByProgram(String program);
     Page<StudentDTO> findAll(int page, int size);
     List<StudentDTO> getEnrolledStudents(long courseId);

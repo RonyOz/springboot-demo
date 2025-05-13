@@ -30,6 +30,12 @@ public class CourseRestController {
     @GetMapping
     public ResponseEntity<List<CourseDTO>> all() {
         var courses = courseService.getAllCourses();
+        // for each course, set cuant of students to the response
+        for (CourseDTO course : courses) {
+            var students = studentService.getStudentsByCourse(course.getId()).size();
+            course.setStudentsCount(students);
+        }
+
         return ResponseEntity.status(200).body(courses);
     }
 
@@ -37,5 +43,11 @@ public class CourseRestController {
     public ResponseEntity<List<StudentDTO>> getStudentsByCourseId(@PathVariable Long courseId) {
         var students = studentService.getStudentsByCourse(courseId);
         return ResponseEntity.status(200).body(students);
+    }
+
+    @GetMapping("/{courseId}/filter?name={name}")
+    public ResponseEntity<List<CourseDTO>> getStudentsByCourseIdAndName(@PathVariable Long courseId, @PathVariable String name) {
+        var courses = courseService.filterCoursesByName(name);
+        return ResponseEntity.status(200).body(courses);
     }
 }

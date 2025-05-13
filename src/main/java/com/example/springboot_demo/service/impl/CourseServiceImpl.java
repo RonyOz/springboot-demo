@@ -66,4 +66,9 @@ public class CourseServiceImpl implements CourseService {
         return courseMapper.toDTO(courseRepository.findById(id).get());
     }
 
+    @Override
+    public List<CourseDTO> filterCoursesByName(String name) {
+        return courseRepository.findByNameContainingIgnoreCase(name).stream().map(courseMapper::toDTO).toList();
+    }
+
 }

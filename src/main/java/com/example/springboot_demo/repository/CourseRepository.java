@@ -26,5 +26,7 @@ public interface CourseRepository extends JpaRepository<Course, Integer> {
     
     boolean existsByName(String courseName);
 
+    List<Course> findByNameContainingIgnoreCase(String name);
+
 
 }

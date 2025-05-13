@@ -9,4 +9,5 @@ public interface CourseService {
     List<CourseDTO> getCoursesByStudent(Long studentId);
     List<CourseDTO> getAllCourses();
     CourseDTO getCourseById(Long id);
+    List<CourseDTO> filterCoursesByName(String name);
 }
