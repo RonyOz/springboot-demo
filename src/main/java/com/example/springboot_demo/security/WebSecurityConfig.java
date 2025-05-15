@@ -47,6 +47,11 @@ public class WebSecurityConfig {
                         auth -> auth
                                 .requestMatchers("/api/v1/auth/**").permitAll()
                                 .requestMatchers("/api/v1/**").authenticated())
+                                // .requestMatchers("/login").permitAll()
+                                // .requestMatchers(HttpMethod.GET, "/tasks/**").hasAnyAuthority("VIEW_TASK")
+                                // .requestMatchers(HttpMethod.POST,"/tasks/**").hasAnyAuthority("CREATE_TASK")
+                                // .requestMatchers(HttpMethod.PUT,"/tasks/**").hasAnyAuthority("UPDATE_TASK")
+                                // .requestMatchers(HttpMethod.DELETE,"/tasks/**").hasAnyAuthority("DELETE_TASK")
                 .exceptionHandling(eh -> eh
                         .authenticationEntryPoint((request, response, authException) -> {
                             response.setStatus(401);
