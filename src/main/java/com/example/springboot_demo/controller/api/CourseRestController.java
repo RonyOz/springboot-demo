@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.springboot_demo.dto.CourseDTO;
@@ -18,7 +19,7 @@ import com.example.springboot_demo.service.StudentService;
 @RestController
 @RequestMapping("api/v1/courses")
 public class CourseRestController {
-    
+
     @Autowired
     @Qualifier("courseServiceImpl")
     private CourseService courseService;
@@ -45,8 +46,8 @@ public class CourseRestController {
         return ResponseEntity.status(200).body(students);
     }
 
-    @GetMapping("/{courseId}/filter?name={name}")
-    public ResponseEntity<List<CourseDTO>> getStudentsByCourseIdAndName(@PathVariable Long courseId, @PathVariable String name) {
+    @GetMapping("/filter")
+    public ResponseEntity<List<CourseDTO>> filterCoursesByName(@RequestParam String name) {
         var courses = courseService.filterCoursesByName(name);
         return ResponseEntity.status(200).body(courses);
     }
