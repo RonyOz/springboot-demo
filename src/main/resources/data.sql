@@ -72,11 +72,19 @@ VALUES (1, 1),
        (2, 2);
 
 -- Configurar secuencia
-SELECT setval('sb_users_seq', (SELECT MAX(id) FROM sb_users));
-SELECT setval('roles_seq', (SELECT MAX(id) FROM roles));
+-- SELECT setval('sb_users_seq', (SELECT MAX(id) FROM sb_users));
+-- SELECT setval('roles_seq', (SELECT MAX(id) FROM roles));
 
-SELECT setval('professors_seq', (SELECT MAX(id) FROM professors));
-SELECT setval('students_seq', (SELECT MAX(id) FROM students));
-SELECT setval('courses_seq', (SELECT MAX(id) FROM courses));
-SELECT setval('enrollments_seq', (SELECT MAX(id) FROM enrollments));
-SELECT setval('sb_users_seq', (SELECT MAX(id) FROM sb_users));
+-- SELECT setval('professors_seq', (SELECT MAX(id) FROM professors));
+-- SELECT setval('students_seq', (SELECT MAX(id) FROM students));
+-- SELECT setval('courses_seq', (SELECT MAX(id) FROM courses));
+-- SELECT setval('enrollments_seq', (SELECT MAX(id) FROM enrollments));
+-- SELECT setval('sb_users_seq', (SELECT MAX(id) FROM sb_users));
+
+-- Configurar secuencias para H2
+-- ALTER SEQUENCE sb_users_seq RESTART WITH 3;
+-- ALTER SEQUENCE roles_seq RESTART WITH 3;
+-- ALTER SEQUENCE professors_seq RESTART WITH 6;
+-- ALTER SEQUENCE students_seq RESTART WITH 21;
+-- ALTER SEQUENCE courses_seq RESTART WITH 6;
+-- ALTER SEQUENCE enrollments_seq RESTART WITH 26;

@@ -1,5 +1,6 @@
 package com.example.springboot_demo.security;
 
+import java.security.Security;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,11 +48,11 @@ public class WebSecurityConfig {
                         auth -> auth
                                 .requestMatchers("/api/v1/auth/**").permitAll()
                                 .requestMatchers("/api/v1/**").authenticated())
-                                // .requestMatchers("/login").permitAll()
-                                // .requestMatchers(HttpMethod.GET, "/tasks/**").hasAnyAuthority("VIEW_TASK")
-                                // .requestMatchers(HttpMethod.POST,"/tasks/**").hasAnyAuthority("CREATE_TASK")
-                                // .requestMatchers(HttpMethod.PUT,"/tasks/**").hasAnyAuthority("UPDATE_TASK")
-                                // .requestMatchers(HttpMethod.DELETE,"/tasks/**").hasAnyAuthority("DELETE_TASK")
+                // .requestMatchers("/login").permitAll()
+                // .requestMatchers(HttpMethod.GET, "/tasks/**").hasAnyAuthority("VIEW_TASK")
+                // .requestMatchers(HttpMethod.POST,"/tasks/**").hasAnyAuthority("CREATE_TASK")
+                // .requestMatchers(HttpMethod.PUT,"/tasks/**").hasAnyAuthority("UPDATE_TASK")
+                // .requestMatchers(HttpMethod.DELETE,"/tasks/**").hasAnyAuthority("DELETE_TASK")
                 .exceptionHandling(eh -> eh
                         .authenticationEntryPoint((request, response, authException) -> {
                             response.setStatus(401);
@@ -76,6 +77,7 @@ public class WebSecurityConfig {
                 .securityMatcher("/**")
                 .authorizeHttpRequests(
                         auth -> auth
+                                .requestMatchers("/ws/chat/**").permitAll()
                                 .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
                                 .requestMatchers("/signup").permitAll()
                                 .requestMatchers("/course", "/home", "/student").authenticated())
@@ -115,7 +117,7 @@ public class WebSecurityConfig {
         configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/api/v1/**", configuration);
+        source.registerCorsConfiguration("/**", configuration);
         return source;
     }
 
